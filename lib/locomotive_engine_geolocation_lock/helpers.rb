@@ -17,23 +17,26 @@ module LocomotiveEngineGeolocationLock::Helpers
 			uri = URI.parse("https://freegeoip.net/json/#{remote_ip}")
 
 			# Specify your own service
-			if env['geolocation_url'] != nil
-				uri = URI.parse(env['geolocation_url'] >> remote_ip)
-			end
-			
+			uri = URI.parse(ENV['geolocation_url'].dup << remote_ip) unless ENV['geolocation_url'].nil?
+
 			http = Net::HTTP.new(uri.host, uri.port)
-			http.use_ssl = false
+			http.use_ssl = uri.scheme == 'https'
 
 			request = Net::HTTP::Get.new(uri.request_uri)
 			request["User-Agent"] = "arthrex-celltherapy-engine"
 
 			resp = http.request(request)
-			currentCountry = "DE"
-
+			#Default Country might be set up here
+			currentCountry = ''
 			if valid_json? resp.body
 				jsonResp = JSON.parse resp.body
-				# currentCountry = jsonResp["country"]
-				currentCountry = jsonResp["country_code"]
+				if jsonResp["country_code"]
+					currentCountry = jsonResp["country_code"]
+				else jsonResp["country"]
+					currentCountry = jsonResp["country"]
+				end
+			else
+				::Rails.logger.warn 'The country of the IP '<< remote_ip<<' could not be solved'
 			end
 			# config.cache_store.write(cache_key, currentCountry, {expires_in: 1.days})
 			return currentCountry
