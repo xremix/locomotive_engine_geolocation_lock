@@ -14,7 +14,13 @@ module LocomotiveEngineGeolocationLock::Helpers
 		# if currentCountry != nil
 		# 	return currentCountry
 		# else
-			uri = URI.parse("https://freegeoip.net/json/80.154.113.10/json/#{remote_ip}")
+			uri = URI.parse("https://freegeoip.net/json/#{remote_ip}")
+
+			# Specify your own service
+			if env['geolocation_url'] != nil
+				uri = URI.parse(env['geolocation_url'] >> remote_ip)
+			end
+			
 			http = Net::HTTP.new(uri.host, uri.port)
 			http.use_ssl = false
 
@@ -23,6 +29,7 @@ module LocomotiveEngineGeolocationLock::Helpers
 
 			resp = http.request(request)
 			currentCountry = "DE"
+
 			if valid_json? resp.body
 				jsonResp = JSON.parse resp.body
 				# currentCountry = jsonResp["country"]
