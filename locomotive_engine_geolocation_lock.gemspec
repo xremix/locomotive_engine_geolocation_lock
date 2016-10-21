@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Lock out geolocations"
   spec.description   = "Lock out user from specific countries"
-  spec.homepage      = "http://github.com/xremix"
+  spec.homepage      = "https://github.com/xremix/locomotive_engine_geolocation_lock"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
