@@ -1,6 +1,13 @@
 # LocomotiveEngineGeolocationLock
 
-A Locomotive CMS Extension to allow Geolocation Lock based on users IP address — Edit
+A Locomotive CMS Extension to allow Geolocation Lock based on users IP address.
+
+Features
+- Figure out users country based on IP (using `freegeoip.net`)
+- Redirect users from certain country to specific URL
+- Use custom country resolve service
+- Caching of requests for 1 day to speed up the service
+- Test IPs by passing a parameter to the URL
 
 
 ## Usage
