@@ -1,4 +1,5 @@
 require 'locomotive/steam/middlewares/helpers'
+require_relative  'cacher'
 
 module LocomotiveEngineGeolocationLock
 	module Helpers
@@ -6,19 +7,18 @@ module LocomotiveEngineGeolocationLock
 		include ::Locomotive::Steam::Middlewares::Helpers
 
 		def get_country_by_ip(remote_ip)
-			# cache_key = "getcountryip-#{remote_ip}"
 
-	  #   	config.cache_store = ActiveSupport::Cache::MemoryStore.new
+			cache_key = "getcountryip-#{remote_ip}"
 
-			# currentCountry = config.cache_store.fetch(cache_key)
+			currentCountry = Cacher._get_by_key cache_key
 
-			# if currentCountry != nil
-			# 	return currentCountry
-			# else
+			if currentCountry != nil
+				return currentCountry
+			else
 				uri = URI.parse("https://freegeoip.net/json/#{remote_ip}")
 
 				# Specify your own service
-				uri = URI.parse(ENV['geolocation_url'].dup << remote_ip) unless ENV['geolocation_url'].nil?
+				uri = URI.parse(ENV['geolocation_url'].dup % remote_ip) unless ENV['geolocation_url'].nil?
 
 				http = Net::HTTP.new(uri.host, uri.port)
 				http.use_ssl = uri.scheme == 'https'
@@ -27,7 +27,7 @@ module LocomotiveEngineGeolocationLock
 				request["User-Agent"] = "arthrex-celltherapy-engine"
 
 				resp = http.request(request)
-				#Default Country might be set up here
+				#Default / Fallback Country might be set up here
 				currentCountry = ''
 				if valid_json? resp.body
 					jsonResp = JSON.parse resp.body
@@ -39,10 +39,9 @@ module LocomotiveEngineGeolocationLock
 				else
 					::Rails.logger.warn 'The country of the IP '<< remote_ip<<' could not be solved'
 				end
-				# config.cache_store.write(cache_key, currentCountry, {expires_in: 1.days})
+				Cacher._set_by_key(cache_key, currentCountry)
 				return currentCountry
-
-			# end
+			end
 		end
 		def valid_json?(json)
 			begin

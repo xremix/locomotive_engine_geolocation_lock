@@ -20,9 +20,9 @@ To let user of the backoffice add countries you will need to add the following h
 
 You can specify your own geolocation IP in the .env file
 ```
-geolocation_url=http://my_service.io/
+geolocation_url=http://my_service.io/%s
 ```
-The ip will get appended at the end of the url.
+The ip will get replaced with `%s`
 
 
 ## Test
