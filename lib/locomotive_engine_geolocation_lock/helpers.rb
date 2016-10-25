@@ -18,7 +18,7 @@ module LocomotiveEngineGeolocationLock
 				uri = URI.parse("https://freegeoip.net/json/#{remote_ip}")
 
 				# Specify your own service
-				uri = URI.parse(ENV['geolocation_url'].dup % remote_ip) unless ENV['geolocation_url'].nil?
+				uri = URI.parse(ENV['GEOLOCATION_URL'].dup % remote_ip) unless ENV['GEOLOCATION_URL'].nil?
 
 				http = Net::HTTP.new(uri.host, uri.port)
 				http.use_ssl = uri.scheme == 'https'
