@@ -22,15 +22,23 @@ gem 'locomotive_engine_geolocation_lock', git: 'https://github.com/xremix/locomo
 
 ## Configuration
 
-To let user of the backoffice add countries you will need to add the following handle(s) to your engine:
+To let user of the backoffice add countries you will need to add the following handle(s) to your engines code:
 `request_geolocation_lock_countries`
 
+### Geolocation Service
 You can specify your own geolocation IP in the .env file
 ```
-geolocation_url=http://my_service.io/%s
+GEOLOCATION_URL=http://my_service.io/%s
 ```
 The ip will get replaced with `%s`
 
+### Redirect Handle
+Specify your own page handle users from locked countries should get redirected to by specificng the following environment variable
+```
+GEOLOCATION_LOCK_PAGE_HANDLE
+```
+
 
 ## Test
-You can test the functionality by passing a parameter to the site like `my_website.io/?test_geo_ip=TESTIPADDRESS`
+You can test the functionality by passing a parameter to the site like `my_website.io/?geo_ip=TESTIPADDRESS`  
+*Warning, this works only if the rails environment is set to development*
