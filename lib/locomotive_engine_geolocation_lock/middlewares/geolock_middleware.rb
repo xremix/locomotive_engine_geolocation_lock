@@ -11,7 +11,7 @@ module LocomotiveEngineGeolocationLock
 
       def _call
         if ::Locomotive::Steam.configuration.mode != :test
-          lock_page_handle = 'embargoed-country'
+          lock_page_handle = 'locked-country'
           lock_page_handle = ENV['GEOLOCATION_LOCK_PAGE_HANDLE'] unless ENV['GEOLOCATION_LOCK_PAGE_HANDLE'].nil?
           unless page.handle == lock_page_handle
             request_ip = request.ip
