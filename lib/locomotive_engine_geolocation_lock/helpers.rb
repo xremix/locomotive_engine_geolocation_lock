@@ -5,7 +5,18 @@ module LocomotiveEngineGeolocationLock
 	module Helpers
 
 		include ::Locomotive::Steam::Middlewares::Helpers
-
+		def get_client_ip
+			request_ip = request.ip
+			unless request.headers["X-Forwarded-For"].nil?
+				forwarded_header = request.headers["X-Forwarded-For"]
+				if forwarded_header.include?(',')
+					request_ip = forwarded_header.split(',').first.strip
+				else
+					request_ip = forwarded_header.strip
+				end
+            request_ip = params[:geo_ip] unless params[:geo_ip].blank? or Rails.env.production?
+            raise request_ip
+		end
 		def get_country_by_ip(remote_ip)
 
 			cache_key = "getcountryip-#{remote_ip}"
