@@ -8,6 +8,7 @@ module LocomotiveEngineGeolocationLock
 		def get_client_ip
 			# Rack request
 			request_ip = request.ip
+			puts 'remote ip is #{request_ip}'
 			unless request.headers["X-Forwarded-For"].nil?
 				forwarded_header = request.headers["X-Forwarded-For"]
 				if forwarded_header.include?(',')
