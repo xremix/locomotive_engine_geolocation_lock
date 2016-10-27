@@ -19,6 +19,7 @@ module LocomotiveEngineGeolocationLock
 			# end
             request_ip = params[:geo_ip] unless params[:geo_ip].blank? or Rails.env.production?
             # raise request_ip
+            return request_ip
 		end
 
 		def get_country_by_ip(remote_ip)
