@@ -15,7 +15,7 @@ module LocomotiveEngineGeolocationLock
           lock_page_handle = ENV['GEOLOCATION_LOCK_PAGE_HANDLE'] unless ENV['GEOLOCATION_LOCK_PAGE_HANDLE'].nil?
           unless page.handle == lock_page_handle
             request_ip = request.ip
-            request_ip = params[:geo_ip] unless params[:geo_ip].blank? or !Rails.env.development?
+            request_ip = params[:geo_ip] unless params[:geo_ip].blank? or Rails.env.production?
             user_country = get_country_by_ip(request_ip)
             lock_countries = site.request_geolocation_lock_countries.gsub(/\s+/, "").downcase.split(',')
             if (lock_countries.include? user_country.downcase)
