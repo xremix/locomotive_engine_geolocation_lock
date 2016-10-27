@@ -12,6 +12,8 @@ module LocomotiveEngineGeolocationLock
       def _call
         if ::Locomotive::Steam.configuration.mode != :test
           lock_page_handle = 'locked-country'
+          Rails.logger.warn "-------------------------------------> > > > > #{env['HTTP_HOST']} #{env.key? 'HTTP_HOST'}"
+          Rails.logger.warn "-------------------------------------> > > > > #{env['HTTP_X_FORWARDED_FOR']}"
           lock_page_handle = ENV['GEOLOCATION_LOCK_PAGE_HANDLE'] unless ENV['GEOLOCATION_LOCK_PAGE_HANDLE'].nil?
           unless page.handle == lock_page_handle
             request_ip = get_client_ip
