@@ -8,17 +8,15 @@ module LocomotiveEngineGeolocationLock
 		def get_client_ip
 			# Rack request
 			request_ip = request.ip
-			puts "remote ip is #{request_ip}"
-			# unless request.headers["X-Forwarded-For"].nil?
-			# 	forwarded_header = request.headers["X-Forwarded-For"]
-			# 	if forwarded_header.include?(',')
-			# 		request_ip = forwarded_header.split(',').first.strip
-			# 	else
-			# 		request_ip = forwarded_header.strip
-			# 	end
-			# end
+			unless env["HTTP_X_FORWARDED_FOR"].nil?
+				forwarded_header = env["HTTP_X_FORWARDED_FOR"]
+				if forwarded_header.include?(',')
+					request_ip = forwarded_header.split(',').first.strip
+				else
+					request_ip = forwarded_header.strip
+				end
+			end
             request_ip = params[:geo_ip] unless params[:geo_ip].blank? or Rails.env.production?
-            # raise request_ip
             return request_ip
 		end
 
