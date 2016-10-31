@@ -8,7 +8,7 @@ module LocomotiveEngineGeolocationLock
 		def get_client_ip
 			# Rack request
 			request_ip = request.ip
-			Rails.logger.warn "Request IP #{request.ip]}"
+			Rails.logger.warn "Request IP #{request.ip}"
 			unless env["HTTP_X_FORWARDED_FOR"].nil?
 				forwarded_header = env["HTTP_X_FORWARDED_FOR"]
 				if forwarded_header.include?(',')
