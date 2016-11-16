@@ -13,7 +13,7 @@ module LocomotiveEngineGeolocationLock
         if ::Locomotive::Steam.configuration.mode != :test
           lock_page_handle = 'locked-country'
           lock_page_handle = ENV['GEOLOCATION_LOCK_PAGE_HANDLE'] unless ENV['GEOLOCATION_LOCK_PAGE_HANDLE'].nil?
-          unless page.handle == lock_page_handle
+          unless page.handle == lock_page_handle #or is_crawler
             request_ip = get_client_ip
             user_country = get_country_by_ip(request_ip)
             lock_countries = site.request_geolocation_lock_countries.gsub(/\s+/, "").downcase.split(',')
