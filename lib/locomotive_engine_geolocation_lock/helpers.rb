@@ -1,11 +1,11 @@
-require 'locomotive/steam/middlewares/helpers'
+require 'locomotive/steam/middlewares/concerns/helpers'
 require_relative  'cacher'
 require 'json'
 
 module LocomotiveEngineGeolocationLock
 	module Helpers
 
-		include ::Locomotive::Steam::Middlewares::Helpers
+		include ::Locomotive::Steam::Middlewares::Concerns::Helpers
 
 		def get_user_agents_from_file
 			current_dir = File.dirname(__FILE__)
@@ -109,7 +109,7 @@ module LocomotiveEngineGeolocationLock
 						currentCountry = jsonResp["country"]
 					end
 				else
-					::Rails.logger.warn 'The country of the IP '<< remote_ip<<' could not be solved'
+					::Rails.logger.warn 'The country of the IP '<< remote_ip << ' could not be solved'
 				end
 				Cacher._set_by_key(cache_key, currentCountry)
 				return currentCountry
@@ -129,7 +129,7 @@ module LocomotiveEngineGeolocationLock
 			unless target_page.nil?
 				target_path = "/#{target_page.fullpath}"
 				target_path = "/#{locale}#{target_path}" unless locale == default_locale
-				redirect_to target_path, type	
+				redirect_to target_path, type
 			else
 				raise "No site is set up with the handle '#{handle}'"
 			end
