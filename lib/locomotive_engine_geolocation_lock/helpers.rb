@@ -87,7 +87,9 @@ module LocomotiveEngineGeolocationLock
 			if currentCountry != nil
 				return currentCountry
 			else
-				uri = URI.parse("https://freegeoip.net/json/#{remote_ip}")
+				accessKeyParameter = ""
+				accessKeyParameter = "?access_key=#{ENV['GEOLOCATION_ACCESS_KEY']}" unless ENV['GEOLOCATION_ACCESS_KEY'].nil?
+				uri = URI.parse("https://api.ipstack.com/#{remote_ip}")
 
 				# Specify your own service
 				uri = URI.parse(ENV['GEOLOCATION_URL'].dup % remote_ip) unless ENV['GEOLOCATION_URL'].nil?
