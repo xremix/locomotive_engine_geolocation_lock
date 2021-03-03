@@ -97,6 +97,7 @@ module LocomotiveEngineGeolocationLock
 
 				request = Net::HTTP::Get.new(uri.request_uri)
 				request["User-Agent"] = "arthrex-celltherapy-engine"
+				request["X-Api-Key"] = ENV['GEOLOCATION_X_API_KEY'] unless ENV['GEOLOCATION_X_API_KEY'].nil?
 
 				resp = http.request(request)
 				#Default / Fallback Country might be set up here
