@@ -108,7 +108,7 @@ module LocomotiveEngineGeolocationLock
 					jsonResp = JSON.parse resp.body
 					if jsonResp["country_code"]
 						currentCountry = jsonResp["country_code"]
-					else jsonResp["country"]
+					else if jsonResp["country"]
 						if jsonResp["country"]["iso_code"]
 							currentCountry = jsonResp["country"]["iso_code"]
 						else
